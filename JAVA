@@ -1,0 +1,98 @@
+
+import java.util.Scanner;
+
+public class PayrollSystem {
+
+    String employeeName;
+    int employeeId;
+    double basicSalary;
+    int daysWorked;
+
+    double grossPay;
+    double houseAllowance;
+    double taxAmount;
+    double providentFund;
+    double netPay;
+
+    // Input employee details
+    void inputEmployeeData(Scanner sc) {
+        System.out.println("===== Enter Employee Details =====");
+
+        System.out.print("Employee Name   : ");
+        employeeName = sc.nextLine();
+
+        System.out.print("Employee ID     : ");
+        employeeId = sc.nextInt();
+
+        System.out.print("Basic Salary (monthly, for 30 days): Rs. ");
+        basicSalary = sc.nextDouble();
+
+        System.out.print("Days Worked this month: ");
+        daysWorked = sc.nextInt();
+
+        sc.nextLine();
+    }
+
+    // Calculate salary and deductions
+    void calculateSalary() {
+        grossPay = (basicSalary / 30.0) * daysWorked;
+        houseAllowance = 1500.0;
+
+        taxAmount = grossPay * 0.10;
+        providentFund = grossPay * 0.05;
+
+        netPay = grossPay + houseAllowance
+                 - taxAmount - providentFund;
+
+        grossPay = Math.round(grossPay * 100.0) / 100.0;
+        taxAmount = Math.round(taxAmount * 100.0) / 100.0;
+        providentFund = Math.round(providentFund * 100.0) / 100.0;
+        netPay = Math.round(netPay * 100.0) / 100.0;
+    }
+
+    // Generate employee payslip
+    void generatePayslip() {
+        System.out.println();
+
+        System.out.println("========================================");
+        System.out.println("           EMPLOYEE PAYSLIP             ");
+        System.out.println("========================================");
+
+        System.out.printf("  Name         : %s%n", employeeName);
+        System.out.printf("  Employee ID  : %d%n", employeeId);
+        System.out.printf("  Days Worked  : %d / 30%n", daysWorked);
+
+        System.out.println("----------------------------------------");
+        System.out.println("  EARNINGS");
+
+        System.out.printf("    Gross Pay        : Rs. %8.2f%n", grossPay);
+        System.out.printf("    House Allowance  : Rs. %8.2f%n", houseAllowance);
+
+        System.out.println("----------------------------------------");
+        System.out.println("  DEDUCTIONS");
+
+        System.out.printf("    Income Tax (10%%) : Rs. %8.2f%n", taxAmount);
+        System.out.printf("    Provident Fund(5%%): Rs. %8.2f%n", providentFund);
+
+        System.out.println("----------------------------------------");
+
+        System.out.printf("  NET PAY              : Rs. %8.2f%n", netPay);
+
+        System.out.println("========================================");
+        System.out.println("     Thank you! Have a great month.     ");
+        System.out.println("========================================");
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        PayrollSystem payroll = new PayrollSystem();
+
+        payroll.inputEmployeeData(sc);
+        payroll.calculateSalary();
+        payroll.generatePayslip();
+
+        sc.close();
+    }
+}
